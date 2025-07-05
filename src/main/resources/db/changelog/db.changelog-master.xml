@@ -6,6 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
     <!-- Include các file migration -->
+    <include file="src/main/resources/db/changelog/changes/2025-07-05-23-00-update-users-table.sql"/>
     <include file="src/main/resources/db/changelog/changes/2025-07-05-17-00-create-users-table.sql"/>
     <include file="src/main/resources/db/changelog/changes/2025-07-05-17-00-create-refresh-tokens-table.sql"/>
 

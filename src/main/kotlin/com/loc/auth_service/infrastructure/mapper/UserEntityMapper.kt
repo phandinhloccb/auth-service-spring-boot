@@ -1,7 +1,7 @@
 package com.loc.auth_service.infrastructure.mapper
 
 import com.loc.auth_service.domain.model.User
-import com.loc.auth_service.infrastructure.repository.entity.UserEntity
+import com.loc.auth_service.infrastructure.entity.UserEntity
 import org.springframework.stereotype.Component
 
 @Component
@@ -14,10 +14,10 @@ class UserEntityMapper {
             password = entity.password,
             email = entity.email,
             role = entity.role,
-            isEnabled = entity.isEnabled,
-            isAccountNonExpired = entity.isAccountNonExpired,
-            isAccountNonLocked = entity.isAccountNonLocked,
-            isCredentialsNonExpired = entity.isCredentialsNonExpired,
+            isEnabled = entity.enabled,
+            isAccountNonExpired = entity.accountNonExpired,
+            isAccountNonLocked = entity.accountNonLocked,
+            isCredentialsNonExpired = entity.credentialsNonExpired,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt
         )
@@ -30,10 +30,10 @@ class UserEntityMapper {
             password = domain.password ?: "",
             email = domain.email,
             role = domain.role,
-            isEnabled = domain.isEnabled,
-            isAccountNonExpired = domain.isAccountNonExpired,
-            isAccountNonLocked = domain.isAccountNonLocked,
-            isCredentialsNonExpired = domain.isCredentialsNonExpired,
+            enabled = domain.isEnabled,
+            accountNonExpired = domain.isAccountNonExpired,
+            accountNonLocked = domain.isAccountNonLocked,
+            credentialsNonExpired = domain.isCredentialsNonExpired,
             createdAt = domain.createdAt,
             updatedAt = domain.updatedAt
         )

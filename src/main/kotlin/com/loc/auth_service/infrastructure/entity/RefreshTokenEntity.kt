@@ -1,4 +1,4 @@
-package com.loc.auth_service.infrastructure.repository.entity
+package com.loc.auth_service.infrastructure.entity
 
 import jakarta.persistence.*
 import java.time.LocalDateTime

@@ -2,7 +2,7 @@ package com.loc.auth_service.application.service
 
 import com.loc.auth_service.application.port.RefreshTokenRepositoryPort
 import com.loc.auth_service.application.port.UserRepositoryPort
-import com.loc.auth_service.domain.dto.RefreshTokenRequest
+import com.loc.authservice.model.RefreshTokenRequest
 import org.springframework.stereotype.Service
 
 @Service

@@ -2,8 +2,8 @@ package com.loc.auth_service.infrastructure.adapter
 
 import com.loc.auth_service.application.port.RefreshTokenRepositoryPort
 import com.loc.auth_service.domain.model.RefreshToken
-import com.loc.auth_service.infrastructure.repository.RefreshTokenJpaRepository
 import com.loc.auth_service.infrastructure.mapper.RefreshTokenEntityMapper
+import com.loc.auth_service.infrastructure.repository.RefreshTokenJpaRepository
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 

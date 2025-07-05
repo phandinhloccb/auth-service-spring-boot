@@ -1,6 +1,6 @@
 package com.loc.auth_service.infrastructure.repository
 
-import com.loc.auth_service.infrastructure.repository.entity.UserEntity
+import com.loc.auth_service.infrastructure.entity.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 import java.util.*

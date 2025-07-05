@@ -1,4 +1,4 @@
-package com.loc.auth_service.infrastructure.repository.entity
+package com.loc.auth_service.infrastructure.entity
 
 import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
@@ -26,16 +26,16 @@ data class UserEntity(
     val role: String = "USER",
     
     @Column(nullable = false)
-    val isEnabled: Boolean = true,
+    val enabled: Boolean = true,
     
     @Column(nullable = false)
-    val isAccountNonExpired: Boolean = true,
+    val accountNonExpired: Boolean = true,
     
     @Column(nullable = false)
-    val isAccountNonLocked: Boolean = true,
+    val accountNonLocked: Boolean = true,
     
     @Column(nullable = false)
-    val isCredentialsNonExpired: Boolean = true,
+    val credentialsNonExpired: Boolean = true,
     
     @Column(nullable = false)
     val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -51,11 +51,11 @@ data class UserEntity(
     
     override fun getUsername(): String = username
     
-    override fun isAccountNonExpired(): Boolean = isAccountNonExpired
+    override fun isAccountNonExpired(): Boolean = accountNonExpired
     
-    override fun isAccountNonLocked(): Boolean = isAccountNonLocked
+    override fun isAccountNonLocked(): Boolean = accountNonLocked
     
-    override fun isCredentialsNonExpired(): Boolean = isCredentialsNonExpired
+    override fun isCredentialsNonExpired(): Boolean = credentialsNonExpired
     
-    override fun isEnabled(): Boolean = isEnabled
+    override fun isEnabled(): Boolean = enabled
 } 

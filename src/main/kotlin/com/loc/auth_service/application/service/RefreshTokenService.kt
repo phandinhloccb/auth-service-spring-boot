@@ -3,9 +3,9 @@ package com.loc.auth_service.application.service
 import com.loc.auth_service.application.port.RefreshTokenRepositoryPort
 import com.loc.auth_service.application.port.UserRepositoryPort
 import com.loc.auth_service.application.port.JwtTokenPort
-import com.loc.auth_service.domain.dto.RefreshTokenRequest
-import com.loc.auth_service.domain.dto.AuthResponse
 import com.loc.auth_service.domain.model.RefreshToken
+import com.loc.authservice.model.AuthResponse
+import com.loc.authservice.model.RefreshTokenRequest
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -45,7 +45,15 @@ class RefreshTokenService(
             refreshToken = newRefreshToken,
             expiresIn = jwtTokenPort.getAccessTokenExpiration() / 1000,
             username = user.username,
-            role = user.role
+            role = convertStringToRole(user.role)
         )
+    }
+
+    private fun convertStringToRole(roleString: String): AuthResponse.Role {
+        return when (roleString.uppercase()) {
+            "ADMIN" -> AuthResponse.Role.ADMIN
+            "USER" -> AuthResponse.Role.USER
+            else -> AuthResponse.Role.USER // default to USER if unknown
+        }
     }
 } 

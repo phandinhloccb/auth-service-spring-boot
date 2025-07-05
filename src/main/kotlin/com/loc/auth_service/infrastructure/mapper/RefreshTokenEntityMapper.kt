@@ -1,7 +1,7 @@
 package com.loc.auth_service.infrastructure.mapper
 
 import com.loc.auth_service.domain.model.RefreshToken
-import com.loc.auth_service.infrastructure.repository.entity.RefreshTokenEntity
+import com.loc.auth_service.infrastructure.entity.RefreshTokenEntity
 import org.springframework.stereotype.Component
 
 @Component

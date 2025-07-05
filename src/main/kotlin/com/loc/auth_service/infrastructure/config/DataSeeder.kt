@@ -1,15 +1,15 @@
 package com.loc.auth_service.infrastructure.config
 
-import com.loc.auth_service.application.service.UserService
-import com.loc.auth_service.domain.entity.User
+import com.loc.auth_service.application.port.UserRepositoryPort
+import com.loc.auth_service.application.port.PasswordEncoderPort
+import com.loc.auth_service.domain.model.User
 import org.springframework.boot.CommandLineRunner
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 
 @Component
 class DataSeeder(
-    private val userService: UserService,
-    private val passwordEncoder: PasswordEncoder
+    private val userRepositoryPort: UserRepositoryPort,
+    private val passwordEncoderPort: PasswordEncoderPort
 ) : CommandLineRunner {
     
     override fun run(vararg args: String?) {
@@ -18,26 +18,26 @@ class DataSeeder(
     
     private fun seedUsers() {
         // Create admin user if not exists
-        if (!userService.existsByUsername("admin")) {
+        if (userRepositoryPort.findByUsername("admin") == null) {
             val adminUser = User(
                 username = "admin",
-                password = passwordEncoder.encode("admin123"),
+                password = passwordEncoderPort.encode("admin123"),
                 email = "admin@example.com",
                 role = "ADMIN"
             )
-            userService.save(adminUser)
+            userRepositoryPort.save(adminUser)
             println("Admin user created: admin/admin123")
         }
         
         // Create regular user if not exists
-        if (!userService.existsByUsername("user")) {
+        if (userRepositoryPort.findByUsername("user") == null) {
             val regularUser = User(
                 username = "user",
-                password = passwordEncoder.encode("user123"),
+                password = passwordEncoderPort.encode("user123"),
                 email = "user@example.com",
                 role = "USER"
             )
-            userService.save(regularUser)
+            userRepositoryPort.save(regularUser)
             println("Regular user created: user/user123")
         }
     }

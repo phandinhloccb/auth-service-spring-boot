@@ -33,8 +33,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 	implementation("mysql:mysql-connector-java:8.0.33")
 	implementation("io.jsonwebtoken:jjwt-api:0.12.3")
-	implementation("io.jsonwebtoken:jjwt-impl:0.12.3")
-	implementation("io.jsonwebtoken:jjwt-jackson:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -64,7 +64,7 @@ dependencies {
 openApiGenerate {
 	inputSpec.set("$rootDir/src/main/resources/static/openapi.yaml")
 	generatorName.set("kotlin-spring")
-    modelPackage.set("com.loc.productservice.model")
+    modelPackage.set("com.loc.authservice.model")
     outputDir.set("$generatedResourcesDir/openapi")
 
     configOptions.put("useSpringBoot3", "true")

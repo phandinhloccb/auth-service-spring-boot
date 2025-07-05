@@ -1,6 +1,6 @@
 package com.loc.auth_service.infrastructure.repository
 
-import com.loc.auth_service.infrastructure.repository.entity.RefreshTokenEntity
+import com.loc.auth_service.infrastructure.entity.RefreshTokenEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query

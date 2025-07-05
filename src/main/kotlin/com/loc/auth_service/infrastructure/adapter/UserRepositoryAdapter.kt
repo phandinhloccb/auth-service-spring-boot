@@ -2,8 +2,8 @@ package com.loc.auth_service.infrastructure.adapter
 
 import com.loc.auth_service.application.port.UserRepositoryPort
 import com.loc.auth_service.domain.model.User
-import com.loc.auth_service.infrastructure.repository.UserJpaRepository
 import com.loc.auth_service.infrastructure.mapper.UserEntityMapper
+import com.loc.auth_service.infrastructure.repository.UserJpaRepository
 import org.springframework.stereotype.Component
 
 @Component
