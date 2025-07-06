@@ -1,0 +1,94 @@
+spring:
+  application:
+    name: auth-service
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:mysql://localhost:3308/auth_service
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: false
+    drop-first: false  
+    default-schema: auth_service
+    liquibase-schema: auth_service
+    contexts: dev,prod  
+    label-filter: v1.0.0      
+    parameters:
+      appName: auth-service
+      appVersion: 1.0.0
+
+# JWT Configuration
+jwt:
+  secret: MA9TFJ2cV/PxU1h68mbsq/vZB0LskxuAtsQFyZdrmBCNuGk+1pVS6YFIrQEEmnVV
+  expiration: 86400000    # 24 hours in milliseconds
+  refresh-expiration: 604800000  # 7 days in milliseconds
+
+# Server Configuration
+server:
+  port: 8084
+
+# Logging Configuration
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.loc.auth_service: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Spring Boot Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus  # Explicitly include metrics and prometheus
+      base-path: ""
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true  # Explicitly enable metrics
+    prometheus:
+      enabled: true  # Explicitly enable prometheus
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+    mongo:
+      enabled: true
+  server:
+    port: 8084
+  metrics:
+    export:
+      prometheus:
+        enabled: true  # Enable Prometheus metrics export
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: false
+  show-actuator: true
+  group-configs:
+    - group: auth-service
+      paths-to-match: /api/auth/**
+      display-name: auth Service API

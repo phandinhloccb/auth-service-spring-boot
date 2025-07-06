@@ -1,0 +1,328 @@
+openapi: 3.0.3
+info:
+  title: Auth Service API
+  description: This is the REST API for Authentication Service using JWT tokens
+  version: v1.0.0
+  contact:
+    name: Auth Service Team
+    email: auth-service@example.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  description: You can refer to the Auth Service Wiki Documentation
+  url: https://auth-service-dummy-url.com/docs
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+  - url: https://api.example.com
+    description: Production server
+paths:
+  /api/auth/login:
+    post:
+      summary: User login
+      description: Authenticate user and return JWT access token and refresh token
+      operationId: login
+      tags:
+        - Authentication
+      requestBody:
+        description: User credentials for authentication
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthRequest'
+            examples:
+              admin:
+                summary: Admin Login
+                value:
+                  username: "admin"
+                  password: "admin123"
+              user:
+                summary: User Login
+                value:
+                  username: "user"
+                  password: "user123"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    message: "Login successful"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      tokenType: "Bearer"
+                      expiresIn: 86400
+                      username: "admin"
+                      role: "ADMIN"
+                    timestamp: 1703123456789
+        '400':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                badCredentials:
+                  value:
+                    success: false
+                    message: "Login failed: Invalid username or password"
+                    timestamp: 1703123456789
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/refresh:
+    post:
+      summary: Refresh JWT token
+      description: Generate new access token using refresh token
+      operationId: refreshToken
+      tags:
+        - Authentication
+      requestBody:
+        description: Refresh token to generate new access token
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            examples:
+              refresh:
+                summary: Refresh Token
+                value:
+                  refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccessResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    message: "Token refreshed successfully"
+                    data:
+                      accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                      tokenType: "Bearer"
+                      expiresIn: 86400
+                      username: "admin"
+                      role: "ADMIN"
+                    timestamp: 1703123456789
+        '400':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/auth/logout:
+    post:
+      summary: User logout
+      description: Logout user and revoke refresh token
+      operationId: logout
+      tags:
+        - Authentication
+      requestBody:
+        description: Refresh token to be revoked
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshTokenRequest'
+            examples:
+              logout:
+                summary: Logout
+                value:
+                  refreshToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                success:
+                  value:
+                    success: true
+                    message: "Logout successful"
+                    timestamp: 1703123456789
+        '400':
+          description: Invalid refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+  schemas:
+    AuthRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Username for authentication
+          example: "admin"
+          minLength: 1
+        password:
+          type: string
+          description: Password for authentication
+          example: "admin123"
+          minLength: 1
+          format: password
+    RefreshTokenRequest:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: Refresh token to generate new access token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          minLength: 1
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          description: JWT access token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refreshToken:
+          type: string
+          description: JWT refresh token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        tokenType:
+          type: string
+          description: Token type
+          example: "Bearer"
+          default: "Bearer"
+        expiresIn:
+          type: integer
+          description: Token expiration time in seconds
+          example: 86400
+          format: int64
+        username:
+          type: string
+          description: Username of authenticated user
+          example: "admin"
+        role:
+          type: string
+          description: Role of authenticated user
+          example: "ADMIN"
+          enum: ["ADMIN", "USER"]
+    UserInfo:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Username of the user
+          example: "admin"
+        role:
+          type: string
+          description: Role of the user
+          example: "ADMIN"
+          enum: ["ADMIN", "USER"]
+        email:
+          type: string
+          description: Email of the user
+          example: "admin@example.com"
+          format: email
+        userId:
+          type: integer
+          description: Unique identifier of the user
+          example: 1
+          format: int64
+    AuthSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Login successful"
+        data:
+          $ref: '#/components/schemas/AuthResponse'
+        timestamp:
+          type: integer
+          description: Timestamp of the response
+          example: 1703123456789
+          format: int64
+    ValidateTokenResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Token is valid"
+        data:
+          $ref: '#/components/schemas/UserInfo'
+        timestamp:
+          type: integer
+          description: Timestamp of the response
+          example: 1703123456789
+          format: int64
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Operation completed successfully"
+        timestamp:
+          type: integer
+          description: Timestamp of the response
+          example: 1703123456789
+          format: int64
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: false
+        message:
+          type: string
+          description: Error message
+          example: "Invalid username or password"
+        data:
+          type: object
+          description: Additional error details (optional)
+          additionalProperties: true
+        timestamp:
+          type: integer
+          description: Timestamp of the response
+          example: 1703123456789
+          format: int64
+tags:
+  - name: Authentication
+    description: Authentication operations including login, logout, and token management 
