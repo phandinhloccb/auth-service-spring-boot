@@ -33,7 +33,7 @@ spring:
 
 # JWT Configuration
 jwt:
-  secret: mySecretKey123456789012345678901234567890123456789012345678901234567890
+  secret: MA9TFJ2cV/PxU1h68mbsq/vZB0LskxuAtsQFyZdrmBCNuGk+1pVS6YFIrQEEmnVV
   expiration: 86400000    # 24 hours in milliseconds
   refresh-expiration: 604800000  # 7 days in milliseconds
 
