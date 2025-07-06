@@ -48,3 +48,47 @@ logging:
     com.loc.auth_service: DEBUG
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Spring Boot Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus  # Explicitly include metrics and prometheus
+      base-path: ""
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      probes:
+        enabled: true
+    metrics:
+      enabled: true  # Explicitly enable metrics
+    prometheus:
+      enabled: true  # Explicitly enable prometheus
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+    mongo:
+      enabled: true
+  server:
+    port: 8084
+  metrics:
+    export:
+      prometheus:
+        enabled: true  # Enable Prometheus metrics export
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: false
+  show-actuator: true
+  group-configs:
+    - group: auth-service
+      paths-to-match: /api/auth/**
+      display-name: auth Service API

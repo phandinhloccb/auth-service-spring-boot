@@ -27,6 +27,9 @@ class SecurityConfig {
                 auth
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/actuator/**").permitAll()
+                    .requestMatchers("/metrics/**").permitAll()
+                    .requestMatchers("/prometheus").permitAll()
+                    .requestMatchers("/health/**").permitAll()
                     .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                     .anyRequest().authenticated()
             }
